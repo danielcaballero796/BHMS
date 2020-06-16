@@ -47,11 +47,12 @@ public class Matching {
            
          x++;  
        }
+       System.out.println(ascii[110]);
        int i=m;
        int j=m;
        
        while(i<=n){
-          System.out.println(i + " este es i"); 
+         // System.out.println(i + " este es i"); 
            while(i<n && j>0 && texto.charAt(i-1)==p.charAt(j-1)){
              i--;
              j--;
@@ -60,16 +61,18 @@ public class Matching {
              
                c++;
                i+=m;
-               
+             //  System.out.println(i + " este es i");
            }
-           System.out.println(c + "cantidad");
+           //System.out.println(c + "cantidad");
            j=m;
-           System.out.println(i + " este es i");
+          // System.out.println(i + " este es i");
            
            if((i+1) > (n-1)){
               break; 
            }
+           
            i+=ascii[(int)texto.charAt(i)];
+         //  System.out.println(i + " este es i");
        }
        return c;
         
@@ -78,8 +81,20 @@ public class Matching {
     public static void main(String [] args){
        
         Matching m= new Matching();
-        String c="abcdheughirughabcurhieurghierabcrghuhgur a b c";
-        String p="abc";
+        String c="cordial saludo \n" +
+"\n" +
+"\n" +
+"f2of2ingo34no3nvjn3ngo\n" +
+"\n" +
+"\n" +
+"juan\n" +
+"\n" +
+"\n" +
+"oj2enfoi2nvoi3noi3inobnoiv2juanifj24inf3iu4ngiu344i2unrjngotjh3i4ngong2\n" +
+"\n" +
+"juan";
+        String p="juan";
+       // System.out.println(c.charAt(25-1));
         m.setTexto(c);
         System.out.println(m.getBHMS(p));
     }
