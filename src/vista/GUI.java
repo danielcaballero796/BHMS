@@ -5,11 +5,7 @@
  */
 package vista;
 
-import java.io.File;
-import java.io.FileInputStream;
-import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
-import matching.Matching;
+import Control.Control;
 
 /**
  *
@@ -17,15 +13,10 @@ import matching.Matching;
  */
 public class GUI extends javax.swing.JFrame {
 
-    JFileChooser f;
-    File txt;
-    FileInputStream in;
-    String texto;
-    Matching m= new Matching();
+    Control ctrl;
     public GUI() {
         initComponents();
-        this.f=new JFileChooser();
-        
+        ctrl = new Control();
     }
 
     /**
@@ -128,58 +119,14 @@ public class GUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        if(f.showDialog(null, "abrir")==JFileChooser.APPROVE_OPTION){
-          txt=f.getSelectedFile();
-          if(txt.canRead()){
-              
-              if(txt.getName().endsWith("txt")){
-                 
-                 texto=this.leer(txt);
-                 m.setTexto(texto);
-                 this.txttext.setText(texto);
-                  System.out.println("largo de la cadena" + texto.length());
-                 JOptionPane.showMessageDialog(null, "Archivo cargado correctamente");
-                  
-              }
-              
-              
-              
-          }
-          else{
-             JOptionPane.showMessageDialog(null, "Seleccione un archivo valido"); 
-          }
-        }       
+        this.txttext.setText(ctrl.abrir());
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-       int x= m.getBHMS(this.txtPatron.getText());
+       int x= ctrl.BHMS(this.txtPatron.getText());
        this.txtVeces.setText("el patron se repite " + x + " veces");
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    
-//    public void getBHMS(){
-//        System.out.println( this.txtPatron.getText().length());
-//     
-//    }
-    
-    public String leer(File archivo){
-     
-        String d="";
-        
-        try{
-            FileInputStream fl= new FileInputStream(archivo);
-            int ascii;
-            while((ascii=(int)fl.read())!=-1){
-               char c=(char)ascii;
-               d+=c;
-            }
-            
-            
-        }catch(Exception e){
-            
-        }
-        return d;
-    }
     /**
      * @param args the command line arguments
      */
