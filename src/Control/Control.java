@@ -25,50 +25,25 @@ public class Control {
     public Control() {
     }
 
-    public String abrir() {
-        String cad = "";
-        if (f.showDialog(null, "abrir") == JFileChooser.APPROVE_OPTION) {
-            txt = f.getSelectedFile();
-            if (txt.canRead()) {
+    public String leer(File archivo) {
+        String d = "";
 
-                if (txt.getName().endsWith("txt")) {
-
-                    texto = this.leer(txt);
-                    m.setTexto(texto);
-                    cad = texto;
-                    System.out.println("largo de la cadena" + texto.length());
-                    System.out.println("Archivo cargado correctamente");                    
-
-                }
-
-            } else {
-                cad = "Seleccione un archivo valido";
-            }
-        }
-        return cad;
-    }
-    
-    public String leer(File archivo){
-     
-        String d="";
-        
-        try{
-            FileInputStream fl= new FileInputStream(archivo);
+        try {
+            FileInputStream fl = new FileInputStream(archivo);
             int ascii;
-            while((ascii=(int)fl.read())!=-1){
-               char c=(char)ascii;
-               d+=c;
+            while ((ascii = (int) fl.read()) != -1) {
+                char c = (char) ascii;
+                d += c;
             }
-            
-            
-        }catch(Exception e){
-            
+
+        } catch (Exception e) {
+
         }
         return d;
     }
-    
-    public int BHMS(String p){
-        return m.getBHMS(p);
+
+    public int BHMS(String t, String p) {
+        return m.bmhs(t, t.length(), p, p.length());
     }
 
 }
