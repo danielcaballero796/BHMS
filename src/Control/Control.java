@@ -25,6 +25,11 @@ public class Control {
     public Control() {
     }
 
+    /**
+     * Metodo para leer el archivo
+     * @param archivo
+     * @return una cadena con el texto del archivo que se ha leido
+     */
     public String leer(File archivo) {
         String d = "";
 
@@ -42,7 +47,14 @@ public class Control {
         return d;
     }
 
+    /**
+     * Metodo de la conexion con el negocio para la busqueda el patron y generacion del pdf
+     * @param t texto
+     * @param p patron
+     * @return la cantidad de veces que se repite el patron
+     */
     public int BHMS(String t, String p) {
+        m.generar(t, t.length(), p, p.length());
         return m.bmhs(t, t.length(), p, p.length());
     }
 
