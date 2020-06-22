@@ -5,16 +5,28 @@
  */
 package matching;
 
-import com.itextpdf.text.BaseColor;
-import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Font;
-import com.itextpdf.text.FontFactory;
-import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.Phrase;
-import com.itextpdf.text.pdf.BaseFont;
-import com.itextpdf.text.pdf.FontSelector;
-import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.io.font.FontConstants;
+import com.itextpdf.kernel.colors.Color;
+import com.itextpdf.kernel.colors.ColorConstants;
+
+import com.itextpdf.kernel.font.PdfFont;
+import com.itextpdf.kernel.font.PdfFontFactory;
+import com.itextpdf.kernel.geom.PageSize;
+import com.itextpdf.kernel.pdf.PdfDocument;
+
+import static com.itextpdf.kernel.pdf.PdfName.ColorSpace;
+import static com.itextpdf.kernel.pdf.PdfName.Colors;
+import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.layout.Document;
+import com.itextpdf.layout.element.Paragraph;
+import com.itextpdf.layout.element.Table;
+import java.awt.Desktop;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -25,7 +37,7 @@ import java.io.FileOutputStream;
  */
 public class Matching {
 
-    Document document = new Document();
+    //Document document = new Document(new PdfDocument(1));
     
     public Matching() {
     }
@@ -79,36 +91,36 @@ public class Matching {
      * @param m tamaño del patron
      * @return un pdf en la carpeta del proyecto
      */
-    public String generar(String T, int n, String P, int m) {
+    public String generar(String T, int n, String P, int m) throws FileNotFoundException {
 
-        try {
-            File f = new File("BMHS.pdf");
+       FileOutputStream f = new FileOutputStream("BHMS" + ".pdf");
+        PdfWriter writer = new PdfWriter(f);
+        PdfDocument pdfDoc = new PdfDocument(writer);
 
-            try {
-                PdfWriter.getInstance(this.document, new FileOutputStream(f));
-            } catch (FileNotFoundException fileNotFoundException) {
-                System.out.println("(No se encontró el fichero para generar el pdf)" + fileNotFoundException);
+        Document document = new Document(pdfDoc, PageSize.A1);
+
+            document.add(new Paragraph("Metodos de Matching Boyer Moore Horspool Sunday(BMHS)").setFontSize(20));
+            document.add(new Paragraph("PDF con los pasos del Metodo de Matching Boyer Moore Horspool Sunday(BMHS)").setFontSize(20));
+            document.add(new Paragraph("Daniel José Caballero Sánchez y Juan Sebastian Amaya Ovalle").setFontSize(20));
+            document.add(new Paragraph("Daniel José Caballero Sánchez y Juan Sebastian Amaya Ovalle estudiantes de la UFPS").setFontSize(20));
+            ;
+            try{
+            document.add(new Paragraph("PDF con los pasos del Metodo de Matching Boyer Moore Horspool Sunday(BMHS)").setFontSize(20));
+            document.add(new Paragraph("\n"));
+            document.add(new Paragraph("Estudiantes: \nDaniel José Caballero Sánchez: 1151267 \nJuan Sebastian Amaya Ovalle: 1151772").setFontSize(20));
+            Paragraph par= new Paragraph();
+            par.add("Repositorio de Gitlab: https://gitlab.com/juanse50/bhms");
+            par.setFont(PdfFontFactory.createFont(FontConstants.HELVETICA));
+            par.setFontSize(20);
+            document.add(par);
+            document.add(new Paragraph("Repositorio de Gitlab: https://gitlab.com/juanse50/bhms").setFontSize(20));
+
+            document.add(new Paragraph("\n"));
+            document.add(new Paragraph("Texto Inicial: ").setFontSize(20));
+            }catch(Exception e){
+                System.out.println("Hubo un error " + e); 
             }
-
-            document.addTitle("Metodos de Matching Boyer Moore Horspool Sunday(BMHS)");
-            document.addSubject("PDF con los pasos del Metodo de Matching Boyer Moore Horspool Sunday(BMHS)");
-            document.addAuthor("Daniel José Caballero Sánchez y Juan Sebastian Amaya Ovalle");
-            document.addCreator("Daniel José Caballero Sánchez y Juan Sebastian Amaya Ovalle estudiantes de la UFPS");
-            document.open();
-
-            document.add(new Paragraph("PDF con los pasos del Metodo de Matching Boyer Moore Horspool Sunday(BMHS)", FontFactory.getFont("arial", 18, Font.BOLD, BaseColor.BLACK)));
             document.add(new Paragraph("\n"));
-            document.add(new Paragraph("Estudiantes: \nDaniel José Caballero Sánchez: 1151267 \nJuan Sebastian Amaya Ovalle: 1151772", FontFactory.getFont("arial", 14, Font.BOLD, BaseColor.BLACK)));
-            document.add(new Paragraph("Repositorio de Gitlab: https://gitlab.com/juanse50/bhms", FontFactory.getFont("arial", 12, Font.BOLD, BaseColor.BLACK)));
-
-            document.add(new Paragraph("\n"));
-            document.add(new Paragraph("Texto Inicial: ", FontFactory.getFont("arial", 12, Font.NORMAL, BaseColor.BLACK)));
-            document.add(new Paragraph(T, FontFactory.getFont("arial", 12, Font.NORMAL, BaseColor.RED)));
-            document.add(new Paragraph("\n"));
-            document.add(new Paragraph("Patron a buscar: ", FontFactory.getFont("arial", 12, Font.NORMAL, BaseColor.BLACK)));
-            document.add(new Paragraph(P, FontFactory.getFont("arial", 12, Font.NORMAL, BaseColor.RED)));
-            document.add(new Paragraph("\n"));
-
             int cont = 0;
             int MAXCHAR = 255;
             int[] alfabeto = new int[MAXCHAR + 1];
@@ -127,29 +139,35 @@ public class Matching {
                     j--;
                     k--;
                 }
-                if (j == 0) {
-                    //System.out.println("pintar desde: " + (k) + ", hasta: " + ((k) + (m - 1)));
-                    document.add(new Paragraph("Patron encontrado desde la posición: " + (k) + ", hasta la posición: " + ((k) + (m - 1)), FontFactory.getFont("arial", 12, Font.NORMAL, BaseColor.BLACK)));
+                if (j == 0) {                   
                     cont++;
-
                 }
                 if ((i + 1) > (n - 1)) {
                     break;
                 }
                 i = i + alfabeto[(int) T.charAt(i)];
             }
-            document.add(new Paragraph("\n"));
-            document.add(new Paragraph("El tamaño de la cadena es: " + T.length(), FontFactory.getFont("arial", 12, Font.NORMAL, BaseColor.BLACK)));
-            document.add(new Paragraph("El patrón fue encontrado " + cont + " veces", FontFactory.getFont("arial", 12, Font.NORMAL, BaseColor.BLACK)));
+            String x [] = T.split(P);
+            String p="";
+            Paragraph pa = new Paragraph();
+            for(int y=0; y<x.length; y++){
+              
+                 pa.add(x[y]);
+                 pa.add(new Paragraph(P).setFontColor(ColorConstants.ORANGE));
+                
+            }
+             pa.setFontSize(20);
+            document.add(pa);
+            document.add(new Paragraph("\n").setFontSize(20));
+            document.add(new Paragraph("El tamaño de la cadena es: " + T.length()).setFontSize(20));
+            document.add(new Paragraph("El patrón fue encontrado " + cont + " veces").setFontSize(20));
             document.add(new Paragraph("\n"));
             document.close();
 
             System.out.println("¡Se ha generado el PDF!");
-            return f.getAbsolutePath();
-        } catch (DocumentException documentException) {
-            System.out.println("Se ha producido un error al generar un documento: " + documentException);
-        }
-        return null;
+            return f.toString();
+        
+        
     }
 
 }

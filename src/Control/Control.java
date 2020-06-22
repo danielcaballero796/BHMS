@@ -54,7 +54,11 @@ public class Control {
      * @return la cantidad de veces que se repite el patron
      */
     public int BHMS(String t, String p) {
+        try{
         m.generar(t, t.length(), p, p.length());
+        }catch(Exception e){
+            System.out.println("No se pudo " + e); 
+        }
         return m.bmhs(t, t.length(), p, p.length());
     }
 
