@@ -122,20 +122,15 @@ public class Matching {
 
         Document document = new Document(pdfDoc, PageSize.A1);
 
-            
-            document.add(new Paragraph("PDF con los pasos del Metodo de Matching Boyer Moore Horspool Sunday(BMHS)").setFontSize(20));
-           
-            
             try{
             document.add(new Paragraph("PDF con los pasos del Metodo de Matching Boyer Moore Horspool Sunday(BMHS)").setFontSize(20));
             document.add(new Paragraph("\n"));
             document.add(new Paragraph("Estudiantes: \nDaniel José Caballero Sánchez: 1151267 \nJuan Sebastian Amaya Ovalle: 1151772").setFontSize(20));
             Paragraph par= new Paragraph();
-            par.add("Repositorio de Gitlab: https://gitlab.com/juanse50/bhms");
+            par.add("Repositorio de Gitlab: https://gitlab.com/juanse50/bhmsfinal");
             par.setFont(PdfFontFactory.createFont(FontConstants.HELVETICA));
             par.setFontSize(20);
             document.add(par);
-            document.add(new Paragraph("Repositorio de Gitlab: https://gitlab.com/juanse50/bhms").setFontSize(20));
 
             document.add(new Paragraph("\n"));
             document.add(new Paragraph("Texto Inicial: ").setFontSize(20));

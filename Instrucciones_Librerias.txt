@@ -1,0 +1,1 @@
+Las librerias del proyecto se encuentran en la carpeta dist/lib
