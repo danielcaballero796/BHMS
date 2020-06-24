@@ -30,6 +30,8 @@ import java.util.logging.Logger;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import javax.swing.JOptionPane;
+import ufps.util.colecciones_seed.ListaCD;
 
 /**
  *
@@ -91,19 +93,39 @@ public class Matching {
      * @param m tamaño del patron
      * @return un pdf en la carpeta del proyecto
      */
-    public String generar(String T, int n, String P, int m) throws FileNotFoundException {
+    public void abrirPdf(String archivo){
+     
+        int abrir=JOptionPane.showConfirmDialog(null, "¿Desea abrir el pdf?","Con los pasos del bhms", JOptionPane.YES_NO_OPTION);
+        
+        if(abrir==0){
+           
+            File f=new File(archivo + ".pdf");
+            try{
+            Desktop.getDesktop().open(f);
+            }catch(Exception e){
+                System.out.println("error" + e); 
+            }
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "No se va a abrir el documento");
+        }
+        
+    }
+    
+    public ListaCD generar(String T, int n, String P, int m) throws FileNotFoundException {
 
-       FileOutputStream f = new FileOutputStream("BHMS" + ".pdf");
+        ListaCD indices=new ListaCD();
+        String nombre=JOptionPane.showInputDialog(null, "Escriba el nombre del archivo");
+       FileOutputStream f = new FileOutputStream(nombre+ ".pdf");
         PdfWriter writer = new PdfWriter(f);
         PdfDocument pdfDoc = new PdfDocument(writer);
 
         Document document = new Document(pdfDoc, PageSize.A1);
 
-            document.add(new Paragraph("Metodos de Matching Boyer Moore Horspool Sunday(BMHS)").setFontSize(20));
+            
             document.add(new Paragraph("PDF con los pasos del Metodo de Matching Boyer Moore Horspool Sunday(BMHS)").setFontSize(20));
-            document.add(new Paragraph("Daniel José Caballero Sánchez y Juan Sebastian Amaya Ovalle").setFontSize(20));
-            document.add(new Paragraph("Daniel José Caballero Sánchez y Juan Sebastian Amaya Ovalle estudiantes de la UFPS").setFontSize(20));
-            ;
+           
+            
             try{
             document.add(new Paragraph("PDF con los pasos del Metodo de Matching Boyer Moore Horspool Sunday(BMHS)").setFontSize(20));
             document.add(new Paragraph("\n"));
@@ -141,6 +163,8 @@ public class Matching {
                 }
                 if (j == 0) {                   
                     cont++;
+                    int v=k;
+                    indices.insertarAlFinal(v);
                 }
                 if ((i + 1) > (n - 1)) {
                     break;
@@ -150,11 +174,13 @@ public class Matching {
             String x [] = T.split(P);
             String p="";
             Paragraph pa = new Paragraph();
+            indices.insertarAlFinal(cont);
             for(int y=0; y<x.length; y++){
               
                  pa.add(x[y]);
+                 if(y!=x.length-1){
                  pa.add(new Paragraph(P).setFontColor(ColorConstants.ORANGE));
-                
+                 }
             }
              pa.setFontSize(20);
             document.add(pa);
@@ -163,9 +189,11 @@ public class Matching {
             document.add(new Paragraph("El patrón fue encontrado " + cont + " veces").setFontSize(20));
             document.add(new Paragraph("\n"));
             document.close();
+            
 
             System.out.println("¡Se ha generado el PDF!");
-            return f.toString();
+            this.abrirPdf(nombre);
+            return indices;
         
         
     }

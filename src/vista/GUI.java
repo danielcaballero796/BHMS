@@ -6,9 +6,13 @@
 package vista;
 
 import Control.Control;
+import java.awt.Color;
 import java.io.File;
 import java.io.FileInputStream;
 import javax.swing.JFileChooser;
+import javax.swing.text.DefaultHighlighter;
+import javax.swing.text.Highlighter;
+import ufps.util.colecciones_seed.ListaCD;
 
 /**
  *
@@ -152,9 +156,28 @@ public class GUI extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    public void pintarPatron(ListaCD indices){
+      try{
+          DefaultHighlighter.DefaultHighlightPainter redPainter = new DefaultHighlighter.DefaultHighlightPainter(Color.BLUE);
+          Highlighter h = this.txttext.getHighlighter();
+          
+          for(int i=0; i<indices.getTamanio()-1; i++){
+              int in=(int)indices.get(i);
+              int fin=this.txtPatron.getText().length();
+              h.addHighlight(in, in + fin, redPainter);
+              
+          }
+          
+      }catch(Exception e){
+          System.out.println("error al pintar " + e); 
+      }
+    }
+    
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        int x = ctrl.BHMS(this.texto,this.txtPatron.getText());
-        this.txtVeces.setText("el patron se repite " + x + " veces");
+        ListaCD x = ctrl.BHMS(this.texto,this.txtPatron.getText());
+        this.pintarPatron(x);
+        this.txtVeces.setText("el patron se repite " + x.get(x.getTamanio()-1) + " veces");
+        
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**

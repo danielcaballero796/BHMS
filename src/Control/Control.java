@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import javax.swing.JFileChooser;
 import matching.Matching;
+import ufps.util.colecciones_seed.ListaCD;
 
 /**
  *
@@ -53,13 +54,14 @@ public class Control {
      * @param p patron
      * @return la cantidad de veces que se repite el patron
      */
-    public int BHMS(String t, String p) {
+    public ListaCD BHMS(String t, String p) {
+        ListaCD l= new ListaCD();
         try{
-        m.generar(t, t.length(), p, p.length());
+        l =m.generar(t, t.length(), p, p.length());
         }catch(Exception e){
             System.out.println("No se pudo " + e); 
         }
-        return m.bmhs(t, t.length(), p, p.length());
+        return l;
     }
 
 }
