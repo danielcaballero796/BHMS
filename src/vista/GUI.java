@@ -10,6 +10,7 @@ import java.awt.Color;
 import java.io.File;
 import java.io.FileInputStream;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.text.DefaultHighlighter;
 import javax.swing.text.Highlighter;
 import ufps.util.colecciones_seed.ListaCD;
@@ -153,7 +154,7 @@ public class GUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        
+
         File txt;
         FileInputStream in;
         String text;
@@ -164,7 +165,7 @@ public class GUI extends javax.swing.JFrame {
                 if (txt.getName().endsWith("txt")) {
 
                     text = ctrl.leer(txt);
-                    this.texto=text+".";
+                    this.texto = text + ".";
                     this.txttext.setText(texto);
                     System.out.println("largo de la cadena" + texto.length());
                     System.out.println("Archivo cargado correctamente");
@@ -172,34 +173,37 @@ public class GUI extends javax.swing.JFrame {
                 }
 
             } else {
-                 System.out.println("Seleccione un archivo valido");
+                System.out.println("Seleccione un archivo valido");
             }
         }
-        
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    public void pintarPatron(ListaCD indices){
-      try{
-          DefaultHighlighter.DefaultHighlightPainter redPainter = new DefaultHighlighter.DefaultHighlightPainter(Color.BLUE);
-          Highlighter h = this.txttext.getHighlighter();
-          
-          for(Object n:indices){
-              int in=(int)n;
-              int fin=this.txtPatron.getText().length();
-              h.addHighlight(in, in + fin, redPainter);
-              
-          }
-          
-      }catch(Exception e){
-          System.out.println("error al pintar " + e); 
-      }
+    public void pintarPatron(ListaCD indices) {
+        try {
+            DefaultHighlighter.DefaultHighlightPainter redPainter = new DefaultHighlighter.DefaultHighlightPainter(Color.BLUE);
+            Highlighter h = this.txttext.getHighlighter();
+
+            for (Object n : indices) {
+                int in = (int) n;
+                int fin = this.txtPatron.getText().length();
+                h.addHighlight(in, in + fin, redPainter);
+
+            }
+
+        } catch (Exception e) {
+            System.out.println("error al pintar " + e);
+        }
     }
-    
+
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        ListaCD x = ctrl.BHMS(this.texto,this.txtPatron.getText());
-        this.pintarPatron(x);
-        this.txtVeces.setText("el patron se repite " + x.get(x.getTamanio()-1) + " veces");
-        
+        if (this.txtPatron.getText().equalsIgnoreCase("")) {
+            JOptionPane.showMessageDialog(null, "Primero debe insertar un patron a buscar");
+        } else {
+            ListaCD x = ctrl.BHMS(this.texto, this.txtPatron.getText());
+            this.pintarPatron(x);
+            this.txtVeces.setText("el patron se repite " + x.get(x.getTamanio() - 1) + " veces");
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
