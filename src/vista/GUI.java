@@ -183,8 +183,8 @@ public class GUI extends javax.swing.JFrame {
           DefaultHighlighter.DefaultHighlightPainter redPainter = new DefaultHighlighter.DefaultHighlightPainter(Color.BLUE);
           Highlighter h = this.txttext.getHighlighter();
           
-          for(int i=0; i<indices.getTamanio()-1; i++){
-              int in=(int)indices.get(i);
+          for(Object n:indices){
+              int in=(int)n;
               int fin=this.txtPatron.getText().length();
               h.addHighlight(in, in + fin, redPainter);
               

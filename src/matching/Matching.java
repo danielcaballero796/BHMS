@@ -114,6 +114,7 @@ public class Matching {
     
     public ListaCD generar(String T, int n, String P, int m) throws FileNotFoundException {
 
+        boolean agregar=true;
         ListaCD indices=new ListaCD();
         String nombre=JOptionPane.showInputDialog(null, "Escriba el nombre del archivo");
        FileOutputStream f = new FileOutputStream(nombre+ ".pdf");
@@ -152,6 +153,7 @@ public class Matching {
             while (i <= n) {//tam texto
                 int k = i;
                 int j = m;
+                agregar=true;
                 while ((j > 0) && (T.charAt(k - 1) == P.charAt(j - 1))) {
                     j--;
                     k--;
@@ -160,14 +162,18 @@ public class Matching {
                     cont++;
                     int v=k;
                     indices.insertarAlFinal(v);
+                    i+=P.length();
+                    agregar=false;
                 }
                 if ((i + 1) > (n - 1)) {
                     break;
                 }
+                if(agregar){
                 i = i + alfabeto[(int) T.charAt(i)];
+                }
             }
             String x [] = T.split(P);
-            String p="";
+            
             Paragraph pa = new Paragraph();
             indices.insertarAlFinal(cont);
             for(int y=0; y<x.length; y++){
